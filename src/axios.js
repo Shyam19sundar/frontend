@@ -1,6 +1,6 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: "http://localhost:5000"
+    baseURL: "https://desolate-fortress-07828.herokuapp.com/"
 })
 export default instance;
