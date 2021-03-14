@@ -1,0 +1,32 @@
+.verify {
+  width: 100vw;
+  height: 100vh;
+  margin: auto auto;
+}
+.verify-container {
+  width: 50%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.verify-container > button {
+  background-color: #34004a;
+  color: aliceblue;
+  padding: 7px;
+  border-radius: 10px;
+  outline: none;
+}
+.verify-container > input {
+  width: 30%;
+  padding: 10px;
+}
+.resendBtn {
+    cursor: pointer;
+}
+  

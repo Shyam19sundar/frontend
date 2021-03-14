@@ -1,0 +1,48 @@
+.details-form {
+    width: 100%;
+    height: 100%;
+}
+.details-form > div {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.details-container {
+display: flex;
+flex-direction: column;
+margin: 10px auto;
+}
+.details-container > input {
+    width: 250px;
+    margin-bottom: 10px;
+}
+#message > div {
+    display: flex;
+    align-items: center;
+    margin: 20px auto;
+    width: 70%;
+}
+#tickLower, #tickUpper, #tickNumber, #tickSymbol, #tickLength {
+    visibility: hidden;
+    margin: 0 10%;
+    color: green;
+}
+.passSubmit {
+   cursor: not-allowed;
+   margin: 10px auto;
+   width: 100px;
+   background-color: #34004a;
+   color: aliceblue;
+   padding:7px;
+   border-radius: 10px;
+   outline: none;
+}
+
+button[name='form-submit']:not(:disabled) {
+    cursor: not-allowed;
+}
+  
+  

@@ -1,0 +1,35 @@
+.header {
+    width: 100vw;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    background-color:  #180022;
+    color: azure;
+    justify-content: space-between;
+}
+.header > div {
+    display: flex;
+    width: 250px;
+    justify-content: space-around;
+    margin-right: 20px;
+}
+.header > h1 {
+    padding: 20px;
+}
+.header h3 {
+    font-size: 15px;
+    text-align: center;
+}
+.header h2 {
+    font-size: 20px;
+}
+
+.header button {
+    color: #180022;
+    background-color: aliceblue;
+    padding: 7px;
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+}
+  

@@ -1,0 +1,5 @@
+.roomContent {
+    flex: 0.7;
+    max-height: 100%;
+    display: flex;
+}

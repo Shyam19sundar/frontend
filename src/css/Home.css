@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+.home {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.home > div {
+    flex: 0.5;
+    margin: auto auto;
+}
+.home-image {
+    display: flex;
+    justify-content: center;
+}
+.home-image img {
+    width: 70%;
+    height: 60%;
+}
+.home-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-50%);
+}
+.home-content  h2 {
+    margin: 20px;
+    font-size: 30px;
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: 'Libre Baskerville', sans-serif;
+}
+.home-content input  {
+    width: 50%;
+    justify-self: center;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    border: 2px #34004a solid;
+}
+.home-content p {
+   font-size: 20px;
+   padding: 10px;
+   font-family: 'Akaya Telivigala', cursive;
+   color:rgba(0,0,0,0.5)
+}

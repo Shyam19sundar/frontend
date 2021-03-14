@@ -1,0 +1,56 @@
+.room-list {
+    height: 90vh;
+    flex: 0.3;
+    border-right: 1px solid #180022;
+}
+
+.add-room-form{
+    display: none;
+}
+.add-room-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.add-room-container > button {
+    padding: 7px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    margin: 10px;
+    background-color: #34004a;
+    color: aliceblue;
+    cursor: pointer;
+}
+.add-room-form > input {
+    padding: 7px;
+}
+.add-room-form > button {
+    display: inline;
+    padding: 7px;
+    width: 50px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    margin: 0 10px;
+    background-color: #34004a;
+    color: aliceblue;
+    cursor: pointer;
+}
+.chatList-searchList {
+    color: #180022;
+    border: 1px solid #34004a;
+    /* border-bottom: 1px solid #34004a; */
+    border-radius: 10px;
+}
+.chatList-searchList {
+    padding: 10px;
+}
+.chatList-scroll {
+    height: 85%;
+    overflow-y: scroll;
+}
+.room-searches h4{
+    /* height: 50px; */
+    padding: 20px 10px;
+}
