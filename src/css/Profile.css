@@ -16,6 +16,8 @@
 }
 .profile-image img {
     width: 200px;
+    max-height: 200px;
+    border-radius: 20px;
 }
 .dp-edit {
     position: absolute;

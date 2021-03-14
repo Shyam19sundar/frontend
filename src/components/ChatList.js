@@ -52,7 +52,6 @@ function ChatList() {
                             {search?.dp ? <img src={search?.dp} /> : <img src='../images/male.png' />}
                             <div>
                                 <h4>{search.name}</h4>
-                                <p>Hello! Good Morning</p>
                             </div>
                         </div>
                     ))
@@ -63,7 +62,6 @@ function ChatList() {
                             {single?.dp ? <img src={single?.dp} /> : <img src='../images/male.png' />}
                             <div>
                                 <h4>{single.name}</h4>
-                                <p>Hello! Good Morning</p>
                             </div>
                         </div>
                     ))

@@ -162,22 +162,22 @@ function Profile() {
                         <div className={classes.root}>
                             {profileDetails.dp ?
                                 <div>
-                                    <Avatar className={classes.large} src={profileDetails.dp} />
-                                    <EditIcon onClick={() => {
+                                    <img src={profileDetails.dp} />
+                                    {/* <EditIcon onClick={() => {
                                         dispatch({
                                             type: 'SET_UPLOAD',
                                             uploaded: true
                                         })
-                                    }} className="dp-edit" />
+                                    }} className="dp-edit" /> */}
                                 </div> :
                                 <div>
-                                    <Avatar className={classes.large} src="../images/male.png" />
-                                    <EditIcon onClick={() => {
+                                    <img className={classes.large} src="../images/male.png" />
+                                    {/* <EditIcon onClick={() => {
                                         dispatch({
                                             type: 'SET_UPLOAD',
                                             uploaded: true
                                         })
-                                    }} className="dp-edit" />
+                                    }} className="dp-edit" /> */}
                                 </div>}
 
                         </div>
