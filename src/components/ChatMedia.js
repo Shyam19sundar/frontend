@@ -4,6 +4,8 @@ import '../css/ChatMedia.css'
 import { useStateValue } from '../StateProvider'
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar } from '@material-ui/core';
+import ReactLoading from 'react-loading';
+import $ from 'jquery'
 
 function ChatMedia() {
     const [{ receiver }, dispatch] = useStateValue()
@@ -26,16 +28,22 @@ function ChatMedia() {
     }));
     const classes = useStyles();
     useEffect(() => {
-        if (receiver)
+        if (receiver) {
+            $('.loading-icon-chat-media').show()
             axios.get('/getDetails', {
                 params: {
                     email: receiver?.email
                 }
-            }).then(res => setdetails(res.data))
+            }).then(res => {
+                $('.loading-icon-chat-media').hide()
+                setdetails(res.data)
+            })
+        }
     }, [receiver])
 
     return (
         <div className='chatMedia'>
+            <ReactLoading color='#180022' type='spinningBubbles' className='loading-icon-chat-media' />
             {details ?
                 <div className="details">
                     <div className={classes.root}>

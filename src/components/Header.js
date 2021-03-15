@@ -17,7 +17,7 @@ function Header() {
                     email: user
                 }
             }).then(res => setname(res.data))
-    }, [user])
+    }, [])
 
     return (
         <div className='header'>

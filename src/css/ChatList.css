@@ -63,3 +63,40 @@
     width: 30px;
     height: 30px;
 }
+.loading-icon-center {
+    z-index: 1;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    display: hidden;
+    display: none;
+}
+.loading-icon-media {
+    z-index: 1;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    display: none;
+}
+.loading-icon-chat-center {
+    z-index: 1;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    display: none;
+}
+.loading-icon-chat-media {
+    z-index: 1;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    display: none;
+}

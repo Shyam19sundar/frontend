@@ -159,25 +159,25 @@ function Profile() {
             {
                 Cookies.get('refresh') ?
                     <div className="profile">
-                        <div className={classes.root}>
+                        <div className="profile-image">
                             {profileDetails.dp ?
                                 <div>
                                     <img src={profileDetails.dp} />
-                                    {/* <EditIcon onClick={() => {
+                                    <EditIcon onClick={() => {
                                         dispatch({
                                             type: 'SET_UPLOAD',
                                             uploaded: true
                                         })
-                                    }} className="dp-edit" /> */}
+                                    }} className="dp-edit" />
                                 </div> :
                                 <div>
                                     <img className={classes.large} src="../images/male.png" />
-                                    {/* <EditIcon onClick={() => {
+                                    <EditIcon onClick={() => {
                                         dispatch({
                                             type: 'SET_UPLOAD',
                                             uploaded: true
                                         })
-                                    }} className="dp-edit" /> */}
+                                    }} className="dp-edit" />
                                 </div>}
 
                         </div>
@@ -203,7 +203,7 @@ function Profile() {
                                 <div className='addAreas-container'>
                                     <form onSubmit={handleInterests}>
                                         <input type='text' onChange={(e) => setinterests(e.target.value)} className='addAreas-input' placeholder='Add an area' />
-                                        <SendIcon type="submit" className='areas-send' />
+                                        <SendIcon onClick={handleInterests} type="submit" className='areas-send' />
                                     </form>
                                 </div>
 

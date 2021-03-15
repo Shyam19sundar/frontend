@@ -1,6 +1,7 @@
 .roomMedia {
     flex: 0.4;
     border: 1px solid #180022;
+    position: relative;
 }
 .roomMedia h2{
     text-align: center;

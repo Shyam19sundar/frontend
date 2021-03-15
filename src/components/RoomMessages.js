@@ -7,6 +7,7 @@ import { hasAccess, refresh } from './Access.js'
 import { useStateValue } from '../StateProvider';
 import io from "socket.io-client";
 import $ from 'jquery'
+import ReactLoading from 'react-loading';
 
 const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
 
@@ -19,26 +20,31 @@ function RoomMessages() {
     const user = sessionStorage.getItem("user");
 
     useEffect(() => {
-        socket = io(ENDPOINT);
-        socket.on('users', (data) => {
-            var arr = []
-            data.map(message => {
-                if (message.roomId) {
-                    if (message.roomId === room?._id)
-                        arr.push(message)
-                }
-            })
-            console.log(arr)
-            setRoomMessages(arr)
-        })
-        if (room)
+        if (room) {
+            $('.loading-icon-center').show()
             axios.post('/roomMessages', {
                 roomName: room?.roomName
             }).then(
-                res => setRoomMessages(res.data)
+                res => {
+                    $('.loading-icon-center').hide()
+                    setRoomMessages(res.data)
+                }
             )
+        }
     }, [room])
 
+    socket = io(ENDPOINT);
+    socket.on('users', (data) => {
+        var arr = []
+        data.map(message => {
+            if (message.roomId) {
+                if (message.roomId === room?._id)
+                    arr.push(message)
+            }
+        })
+        // console.log(arr)
+        setRoomMessages(arr)
+    })
     const getRoom = async (access, refreshToken) => {
         return new Promise((resolve, reject) => {
             axios
@@ -100,6 +106,7 @@ function RoomMessages() {
     }
     return (
         <div className='roomMessages'>
+            <ReactLoading color='#180022' type='spinningBubbles' className='loading-icon-center' />
             <div className='chatMessages-header'>
                 <h2>{room?.roomName} </h2>
             </div>

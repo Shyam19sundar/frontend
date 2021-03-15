@@ -1,6 +1,7 @@
 .chatMedia {
     flex: 0.4;
     background-color: aliceblue;
+    position: relative;
 }
 
 .details{

@@ -7,6 +7,7 @@ import axios from '../axios';
 import { useStateValue } from '../StateProvider';
 import io from "socket.io-client";
 import $ from 'jquery'
+import ReactLoading from 'react-loading';
 
 const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
 
@@ -17,6 +18,10 @@ function ChatMessages() {
     const [response, setresponse] = useState(null)
     const [message, setmessage] = useState("")
     const user = sessionStorage.getItem("user");
+
+    useEffect(() => {
+        $('.loading-icon-chat-center').show()
+    }, [receiver])
 
 
     const directMessage = async (access, refreshToken) => {
@@ -33,6 +38,7 @@ function ChatMessages() {
                 )
                 .then(
                     (response) => {
+                        $('.loading-icon-chat-center').hide()
                         setresponse(response.data);
                         resolve(true);
                     },
@@ -106,25 +112,27 @@ function ChatMessages() {
     useEffect(() => {
         if (receiver)
             accessDirect()
-        socket = io(ENDPOINT);
-        socket.on('users', (data) => {
-            var arr = []
-            data.map(message => {
-                if (user && receiver && receiver?.email)
-                    if ((message.fromEmail === user || message.fromEmail === receiver.email) && (message.toEmail === user || message.toEmail === receiver.email))
-                        arr.push(message)
-            })
-            setresponse(arr)
-        })
     }, [ENDPOINT, receiver])
     console.log(user)
+
+    socket = io(ENDPOINT);
+    socket.on('users', (data) => {
+        var arr = []
+        data.map(message => {
+            if (user && receiver && receiver?.email)
+                if ((message.fromEmail === user || message.fromEmail === receiver.email) && (message.toEmail === user || message.toEmail === receiver.email))
+                    arr.push(message)
+        })
+        // $('.loading-icon-chat-center').hide()
+        setresponse(arr)
+    })
 
     const handleSubmit = (e) => {
         $('.chatMessages-input input').val('')
         e.preventDefault()
         if (receiver) {
             var d = new Date();
-            var date = d.toLocaleString()
+            var date = d.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' })
             const obj = {
                 fromEmail: user,
                 message: message,
@@ -137,6 +145,7 @@ function ChatMessages() {
     console.log(response)
     return (
         <div className='chatMessages'>
+            <ReactLoading color='#180022' type='spinningBubbles' className='loading-icon-chat-center' />
             <div className='chatMessages-header'>
                 {receiver?.dp ? <img src={receiver?.dp} /> : <img src='../images/male.png' />}
                 <h2>{receiver?.name}</h2>
@@ -153,7 +162,7 @@ function ChatMessages() {
             </div>
             <form className='chatMessages-input' onSubmit={handleSubmit}>
                 <input onChange={(e) => setmessage(e.target.value)} required type='text' placeholder='Send a message' />
-                <SendIcon id='sendIcon' />
+                <SendIcon id='sendIcon' onClick={handleSubmit} />
                 <button type="submit" style={{ display: 'none' }}></button>
             </form>
         </div>
