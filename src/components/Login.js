@@ -18,7 +18,7 @@ function Login({ setPath }) {
                 password: password
             }).then(data => {
                 Cookies.set("access", data.data.access, { sameSite: "strict" });
-                Cookies.set("refresh", data.data.refresh, { sameSite: "strict" });
+                Cookies.set("refresh", data.data.refresh, { expires: 7, sameSite: "strict" });
                 console.log(data.data);
                 history.push('/')
                 setPath('/')

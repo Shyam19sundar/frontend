@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import SendIcon from '@material-ui/icons/Send';
@@ -7,35 +7,15 @@ import $ from "jquery"
 import axios from '../axios';
 import Cookies from 'js-cookie'
 import { hasAccess, refresh } from './Access.js'
-import { makeStyles } from '@material-ui/core/styles';
 import Model from './Model';
 import { useStateValue } from '../StateProvider';
-import { Avatar } from '@material-ui/core';
 
 function Profile() {
-    const useStyles = makeStyles((theme) => ({
-        root: {
-            display: 'flex',
-            '& > *': {
-                margin: theme.spacing(1),
-            },
-        },
-        small: {
-            width: theme.spacing(3),
-            height: theme.spacing(3),
-        },
-        large: {
-            width: theme.spacing(20),
-            height: theme.spacing(20),
-        },
-    }));
-    const classes = useStyles();
-    const [{ uploaded }, dispatch] = useStateValue()
+
+    const [{ uploaded, user }, dispatch] = useStateValue()
     const [interests, setinterests] = useState("")
     const [nameChange, setnameChange] = useState(false)
     const [name, setname] = useState("")
-    const user = sessionStorage.getItem("user");
-    const [profileDetails, setprofileDetails] = useState({})
     const handleAreas = () => {
         $('.addAreas-container').toggle({ display: 'block' })
     }
@@ -60,7 +40,10 @@ function Profile() {
                 .then(
                     (response) => {
                         if (response.data) {
-                            setprofileDetails(response.data)
+                            dispatch({
+                                type: 'SET_USER',
+                                user: response.data
+                            })
                             setnameChange(false)
                         }
                         resolve(true);
@@ -106,7 +89,10 @@ function Profile() {
                 .then(
                     (response) => {
                         if (response.data) {
-                            setprofileDetails(response.data)
+                            dispatch({
+                                type: 'SET_USER',
+                                user: response.data
+                            })
                             setnameChange(false)
                         }
                         resolve(true);
@@ -145,14 +131,6 @@ function Profile() {
         accessInterest()
     }
 
-    useEffect(() => {
-        axios.get('/profileDetails', {
-            params: {
-                user: user
-            }
-        }).then(res => setprofileDetails(res.data))
-    }, [])
-
     return (
         <div>
             <Model show={uploaded} />
@@ -160,9 +138,9 @@ function Profile() {
                 Cookies.get('refresh') ?
                     <div className="profile">
                         <div className="profile-image">
-                            {profileDetails.dp ?
+                            {user?.dp ?
                                 <div>
-                                    <img src={profileDetails.dp} />
+                                    <img src={user?.dp} />
                                     <EditIcon onClick={() => {
                                         dispatch({
                                             type: 'SET_UPLOAD',
@@ -171,7 +149,7 @@ function Profile() {
                                     }} className="dp-edit" />
                                 </div> :
                                 <div>
-                                    <img className={classes.large} src="../images/male.png" />
+                                    <img src="../images/male.png" />
                                     <EditIcon onClick={() => {
                                         dispatch({
                                             type: 'SET_UPLOAD',
@@ -191,7 +169,7 @@ function Profile() {
                                 </div>
                                 :
                                 <div>
-                                    <h2>{profileDetails.name}</h2>
+                                    <h2>{user?.name}</h2>
                                     <EditIcon className="name-edit" onClick={handleName} />
                                 </div>
                             }
@@ -209,12 +187,7 @@ function Profile() {
 
                             </div>
                             <div>
-                                {profileDetails?.interests ? profileDetails.interests.map(interest => <p>{interest}</p>) : <h3>Update What You Love</h3>}
-                                {/* <p>Music</p>
-                                <p>Cricket</p>
-                                <p>Movies</p>
-                                <p>Science</p>
-                                <p>Science</p> */}
+                                {user?.interests ? user.interests.map(interest => <p>{interest}</p>) : <h3>Update What You Love</h3>}
                             </div>
                         </div>
                     </div> :

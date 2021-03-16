@@ -121,6 +121,7 @@ function RoomList() {
 
     const addRoom = (e) => {
         e.preventDefault()
+        $('.add-room-form input').val('')
         accessAddRoom()
         $('.loading-icon').show()
     }
@@ -133,6 +134,8 @@ function RoomList() {
     }, [ENDPOINT])
 
     const handleRoom = (room) => {
+        $('.chatList-search input').val('')
+        setsearches([])
         dispatch({
             type: 'SET_ROOM',
             room: room
@@ -146,7 +149,7 @@ function RoomList() {
                 <form className="add-room-form" onSubmit={addRoom}>
                     {/* <div>Room Name</div> */}
                     <input placeholder="Room Name" onChange={(e) => setroomName(e.target.value)} />
-                    <button type="submit">Add</button>
+                    <button type="submit" onClick={addRoom}>Add</button>
                 </form>
 
             </div>
@@ -160,7 +163,7 @@ function RoomList() {
                 <ReactLoading color='#180022' type='spinningBubbles' className='loading-icon' />
                 {
                     searches?.map(room => (
-                        <div onClick={() => handleClick(room)} className='chatList-searchList searches room-searches'>
+                        <div onClick={() => handleRoom(room)} className='chatList-searchList searches room-searches'>
                             <div>
                                 <h4>{room.roomName}</h4>
                             </div>

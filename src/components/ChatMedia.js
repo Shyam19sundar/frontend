@@ -29,6 +29,7 @@ function ChatMedia() {
     const classes = useStyles();
     useEffect(() => {
         if (receiver) {
+            setdetails(null)
             $('.loading-icon-chat-media').show()
             axios.get('/getDetails', {
                 params: {
@@ -47,7 +48,7 @@ function ChatMedia() {
             {details ?
                 <div className="details">
                     <div className={classes.root}>
-                        <Avatar className={classes.large} src={details.dp} />
+                        <img className={classes.large} src={details.dp} />
                     </div>
                     <h3>{details.name}</h3>
                     <h5>Interests :</h5>

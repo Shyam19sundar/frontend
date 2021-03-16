@@ -16,9 +16,11 @@ import Profile from "./components/Profile";
 import axios from "./axios";
 import { hasAccess, refresh } from './components/Access.js'
 import Cookies from 'js-cookie'
+import { useStateValue } from "./StateProvider";
 
 function App() {
   const [path, setPath] = useState(window.location.pathname)
+  const [{ user }, dispatch] = useStateValue()
 
   const accessProtected = async () => {
     let accessToken = Cookies.get("access");
@@ -45,7 +47,10 @@ function App() {
         )
         .then(
           (response) => {
-            sessionStorage.setItem("user", response.data);
+            dispatch({
+              type: 'SET_USER',
+              user: response.data
+            })
             resolve(true);
           },
           async (error) => {

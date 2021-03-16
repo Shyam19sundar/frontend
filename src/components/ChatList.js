@@ -29,7 +29,8 @@ function ChatList() {
         else setsearches([])
     }
     const handleClick = (search) => {
-
+        $('.chatList-search input').val('')
+        setsearches([])
         dispatch({
             type: 'SET_CHAT_RECEIVER',
             receiver: search

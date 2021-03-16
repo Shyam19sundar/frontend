@@ -4,29 +4,30 @@ import $ from 'jquery'
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from '../axios';
+import { useStateValue } from '../StateProvider';
 
 function Header() {
-    const [signedin, setSignedin] = useState(false)
-    const [name, setname] = useState("")
-    const user = sessionStorage.getItem("user");
-
-    useEffect(() => {
-        if (user)
-            axios.get('/getMyName', {
-                params: {
-                    email: user
-                }
-            }).then(res => setname(res.data))
-    }, [])
+    const [{ user }, dispatch] = useStateValue()
 
     return (
         <div className='header'>
             <h1>DOVETAIL</h1>
             <div>
                 {Cookies.get('refresh') ?
-                    <div>
-                        <h3>Hello</h3>
-                        <h2>{name}</h2>
+                    <div className="header__details">
+                        <div>
+                            <h3>Hello</h3>
+                            <h2>{user?.name}</h2>
+                        </div>
+                        <div>
+                            {user?.dp ?
+                                <div>
+                                    <img src={user?.dp} />
+                                </div> :
+                                <div>
+                                    <img src="../images/male.png" />
+                                </div>}
+                        </div>
                     </div>
 
                     :

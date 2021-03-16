@@ -3,9 +3,19 @@
     background-color: aliceblue;
     position: relative;
 }
+.chatMedia h3{
+    text-align: center;
+    margin: 10px;
+    font-size: 25px;
+}
 
 .details{
     padding: 20px;
+}
+
+.details img{
+    margin: 10px auto;
+    border-radius: 50%;
 }
 
 .details *{

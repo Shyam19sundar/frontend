@@ -19,11 +19,6 @@ function ChatMessages() {
     const [message, setmessage] = useState("")
     const user = sessionStorage.getItem("user");
 
-    useEffect(() => {
-        $('.loading-icon-chat-center').show()
-    }, [receiver])
-
-
     const directMessage = async (access, refreshToken) => {
         return new Promise((resolve, reject) => {
             axios
@@ -39,7 +34,8 @@ function ChatMessages() {
                 .then(
                     (response) => {
                         $('.loading-icon-chat-center').hide()
-                        setresponse(response.data);
+                        if (response.data !== 'No Messages')
+                            setresponse(response.data);
                         resolve(true);
                     },
                     async (error) => {
@@ -110,8 +106,11 @@ function ChatMessages() {
     };
 
     useEffect(() => {
-        if (receiver)
+        setresponse(null)
+        if (receiver) {
+            $('.loading-icon-chat-center').show()
             accessDirect()
+        }
     }, [ENDPOINT, receiver])
     console.log(user)
 
@@ -124,7 +123,8 @@ function ChatMessages() {
                     arr.push(message)
         })
         // $('.loading-icon-chat-center').hide()
-        setresponse(arr)
+        if (arr.length !== 0)
+            setresponse(arr)
     })
 
     const handleSubmit = (e) => {
@@ -160,11 +160,10 @@ function ChatMessages() {
                     ))
                 }
             </div>
-            <form className='chatMessages-input' onSubmit={handleSubmit}>
+            <div className='chatMessages-input'>
                 <input onChange={(e) => setmessage(e.target.value)} required type='text' placeholder='Send a message' />
                 <SendIcon id='sendIcon' onClick={handleSubmit} />
-                <button type="submit" style={{ display: 'none' }}></button>
-            </form>
+            </div>
         </div>
     )
 }

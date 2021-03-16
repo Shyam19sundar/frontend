@@ -22,10 +22,13 @@ function RoomMessages() {
     useEffect(() => {
         if (room) {
             $('.loading-icon-center').show()
+            console.log("kkkk")
             axios.post('/roomMessages', {
                 roomName: room?.roomName
             }).then(
                 res => {
+                    console.log("object")
+                    console.log(res.data)
                     $('.loading-icon-center').hide()
                     setRoomMessages(res.data)
                 }
@@ -35,6 +38,7 @@ function RoomMessages() {
 
     socket = io(ENDPOINT);
     socket.on('users', (data) => {
+        $('.loading-icon-center').show()
         var arr = []
         data.map(message => {
             if (message.roomId) {
@@ -42,8 +46,9 @@ function RoomMessages() {
                     arr.push(message)
             }
         })
-        // console.log(arr)
-        setRoomMessages(arr)
+        if (arr.length !== 0)
+            setRoomMessages(arr)
+        $('.loading-icon-center').hide()
     })
     const getRoom = async (access, refreshToken) => {
         return new Promise((resolve, reject) => {
@@ -121,11 +126,11 @@ function RoomMessages() {
                 }
             </div>
 
-            <form className='chatMessages-input' onSubmit={handleSubmit}>
+            <div className='chatMessages-input'>
                 <input onChange={(e) => setmessage(e.target.value)} required type='text' placeholder='Send a message' />
                 <SendIcon id='sendIcon' onClick={handleSubmit} />
                 <button type="submit" style={{ display: 'none' }} ></button>
-            </form>
+            </div>
         </div>
     )
 }

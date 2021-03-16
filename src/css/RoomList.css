@@ -47,7 +47,7 @@
     padding: 10px;
 }
 .chatList-scroll {
-    height: 85%;
+    height: 90%;
     overflow-y: scroll;
 }
 .room-searches h4{
