@@ -118,7 +118,7 @@ function RoomMessages() {
             <div className='chatMessages-container room'>
                 {
                     roomMessages?.map(single => (
-                        <div className={single.fromEmail === user ? `chatMessages-message justifyRight` : `chatMessages-message justifyLeft`}>
+                        <div className={single.fromEmail === user.email ? `chatMessages-message justifyRight` : `chatMessages-message justifyLeft`}>
                             <p>{single.message}</p>
                             <span>{single.time}</span>
                         </div>
