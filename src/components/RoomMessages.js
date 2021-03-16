@@ -15,9 +15,8 @@ let socket;
 
 function RoomMessages() {
     const [message, setmessage] = useState("")
-    const [{ room }, dispatch] = useStateValue()
+    const [{ room, user }, dispatch] = useStateValue()
     const [roomMessages, setRoomMessages] = useState([])
-    const user = sessionStorage.getItem("user");
 
     useEffect(() => {
         if (room) {
@@ -101,7 +100,7 @@ function RoomMessages() {
             var d = new Date();
             var date = d.toLocaleString()
             const obj = {
-                fromEmail: user,
+                fromEmail: user.email,
                 message: message,
                 time: date
             }

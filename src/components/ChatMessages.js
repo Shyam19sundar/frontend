@@ -14,10 +14,9 @@ const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
 let socket;
 
 function ChatMessages() {
-    const [{ receiver }, dispatch] = useStateValue()
+    const [{ receiver, user }, dispatch] = useStateValue()
     const [response, setresponse] = useState(null)
     const [message, setmessage] = useState("")
-    const user = sessionStorage.getItem("user");
 
     const directMessage = async (access, refreshToken) => {
         return new Promise((resolve, reject) => {
@@ -119,7 +118,7 @@ function ChatMessages() {
         var arr = []
         data.map(message => {
             if (user && receiver && receiver?.email)
-                if ((message.fromEmail === user || message.fromEmail === receiver.email) && (message.toEmail === user || message.toEmail === receiver.email))
+                if ((message.fromEmail === user.email || message.fromEmail === receiver.email) && (message.toEmail === user.email || message.toEmail === receiver.email))
                     arr.push(message)
         })
         // $('.loading-icon-chat-center').hide()
@@ -134,7 +133,7 @@ function ChatMessages() {
             var d = new Date();
             var date = d.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' })
             const obj = {
-                fromEmail: user,
+                fromEmail: user.email,
                 message: message,
                 time: date
             }
