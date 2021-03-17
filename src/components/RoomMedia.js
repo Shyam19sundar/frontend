@@ -9,6 +9,7 @@ function RoomMedia() {
     const [{ room, roomDetails }, dispatch] = useStateValue()
     useEffect(() => {
         if (room) {
+            $('.roomMedia-container').hide()
             $('.loading-icon-media').show()
             axios.post('/roomMembers', { roomName: room?.roomName })
                 .then(res => {
@@ -17,6 +18,7 @@ function RoomMedia() {
                         type: 'SET_ROOM_MEMBERS',
                         roomDetails: res.data
                     })
+                    $('.roomMedia-container').show()
                 })
         }
     }, [room])

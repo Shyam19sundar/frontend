@@ -2,18 +2,29 @@
     flex: 0.7;
     display: flex;
     flex-direction: column;
-    max-height: 100%;
+    height: 100%;
     width: 100%;
     position: relative;
 }
+.chatMessages-container {
+    box-sizing: border-box;
+    flex: 1;
+    position: relative;
+    max-height: 80%;
+    height: 80%;
+    overflow-y: scroll;
+}
 .chatMessages-input {
-    position: absolute;
-    bottom: 10px;
+    position: sticky;
+    bottom: 0px;
+    left: 50%;
     display: flex;
     align-items: center;
     height: max-content;
+    height: fit-content;
     width: 100%;
     justify-content: center;
+    background-color: white;
 }
 .chatMessages-input > input {
     width: 50%;
@@ -28,12 +39,7 @@
     padding: 5px;
     scale: 150%;
 }
-.chatMessages-container {
-    flex: 1;
-    position: relative;
-    max-height: 80%;
-    overflow-y: scroll;
-}
+
 .chatMessages-message {
     display: flex;
     align-items: center;
@@ -43,25 +49,32 @@
     font-size: 12px;
     padding-right: 10px;
 }
-.chatMessages-message > p {
+.chatMessages-message  p {
     padding: 10px 20px;
     border-radius: 10px;
     color: aliceblue;
-    margin-right: 10px;
+    /* margin-right: 10px; */
+    width: fit-content;
+    /* text-align: center; */
+}
+.chatMessages-message  span {
+    color: black !important;
 }
 .justifyLeft {
     clear: both;
     float: left;
 }
-.justifyLeft > p {
+.justifyLeft  p {
     background-color: #8a2be2;
+    width: fit-content;
+    margin-right: 10px;
 }
 .justifyRight {
     clear: both;
     float: right;
     flex-direction: row-reverse;
 }
-.justifyRight > p {
+.justifyRight  p {
     background-color: #34004a ;
 }
 .chatMessages-message > img {

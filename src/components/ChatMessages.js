@@ -9,9 +9,11 @@ import io from "socket.io-client";
 import $ from 'jquery'
 import ReactLoading from 'react-loading';
 
-const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
+// const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
 
-let socket;
+
+
 
 function ChatMessages() {
     const [{ receiver, user }, dispatch] = useStateValue()
@@ -35,6 +37,7 @@ function ChatMessages() {
                         $('.loading-icon-chat-center').hide()
                         if (response.data !== 'No Messages')
                             setresponse(response.data);
+                        console.log(response.data)
                         resolve(true);
                     },
                     async (error) => {
@@ -109,25 +112,26 @@ function ChatMessages() {
         if (receiver) {
             $('.loading-icon-chat-center').show()
             accessDirect()
+            const socket = io(ENDPOINT);
+            socket.on('users', (data) => {
+                console.log(data)
+                var arr = []
+                data.map(message => {
+                    if (user && receiver && receiver?.email)
+                        if ((message.fromEmail === user.email || message.fromEmail === receiver.email) && (message.toEmail === user.email || message.toEmail === receiver.email))
+                            arr.push(message)
+                })
+                // $('.loading-icon-chat-center').hide()
+                if (arr.length !== 0)
+                    setresponse(arr)
+            })
         }
     }, [ENDPOINT, receiver])
 
-    socket = io(ENDPOINT);
-    socket.on('users', (data) => {
-        var arr = []
-        data.map(message => {
-            if (user && receiver && receiver?.email)
-                if ((message.fromEmail === user.email || message.fromEmail === receiver.email) && (message.toEmail === user.email || message.toEmail === receiver.email))
-                    arr.push(message)
-        })
-        // $('.loading-icon-chat-center').hide()
-        if (arr.length !== 0)
-            setresponse(arr)
-    })
+
 
     const handleSubmit = (e) => {
         $('.chatMessages-input input').val('')
-        e.preventDefault()
         if (receiver) {
             var d = new Date();
             var date = d.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' })
@@ -140,6 +144,7 @@ function ChatMessages() {
             accessAdd()
         }
     }
+
     return (
         <div className='chatMessages'>
             <ReactLoading color='#180022' type='spinningBubbles' className='loading-icon-chat-center' />

@@ -127,6 +127,7 @@ function Profile() {
     }
 
     const handleInterests = e => {
+        $('.addAreas-input').val('')
         e.preventDefault()
         accessInterest()
     }
