@@ -52,7 +52,7 @@ function ChatMedia() {
                     </div>
                     <h3>{details?.name}</h3>
                     <h5>Interests :</h5>
-                    {details?.interests?.length !== 0 ? details.interests.map(interest => <div>{interest}</div>) : <div>No Interests</div>}
+                    {details?.interests?.length !== 0 ? details?.interests?.map(interest => <div>{interest}</div>) : <div>No Interests</div>}
                 </div>
                 :
                 <h3>Details</h3>

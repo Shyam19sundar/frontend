@@ -9,9 +9,9 @@ import io from "socket.io-client";
 import $ from 'jquery'
 import ReactLoading from 'react-loading';
 
-const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
+// const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
 
-let socket;
 
 function RoomMessages() {
     const [message, setmessage] = useState("")
@@ -21,6 +21,7 @@ function RoomMessages() {
 
     useEffect(() => {
         if (room) {
+            setRoomMessages(null)
             $('.loading-icon-center').show()
             axios.post('/roomMessages', {
                 roomName: room?.roomName
@@ -31,6 +32,26 @@ function RoomMessages() {
                 }
             )
         }
+        if (room) {
+            const socket = io(ENDPOINT);
+            socket.on('users', (data) => {
+                // $('.loading-icon-center').show()
+                console.log(data)
+                var arr = []
+                data.map(message => {
+                    if (message.roomId) {
+                        if (message.roomId === room?._id)
+                            arr.push(message)
+                    }
+                })
+                if (arr.length !== 0) {
+                    setRoomMessages(arr)
+                    console.log(arr)
+                }
+
+                // $('.loading-icon-center').hide()
+            })
+        }
         if (roomDetails) {
             roomDetails.map(singleRoomDetail => {
                 if (singleRoomDetail?.email === user?.email)
@@ -39,20 +60,6 @@ function RoomMessages() {
         }
     }, [room, roomDetails])
 
-    socket = io(ENDPOINT);
-    socket.on('users', (data) => {
-        $('.loading-icon-center').show()
-        var arr = []
-        data.map(message => {
-            if (message.roomId) {
-                if (message.roomId === room?._id)
-                    arr.push(message)
-            }
-        })
-        if (arr.length !== 0)
-            setRoomMessages(arr)
-        $('.loading-icon-center').hide()
-    })
     const getRoom = async (access, refreshToken) => {
         return new Promise((resolve, reject) => {
             axios
@@ -98,8 +105,8 @@ function RoomMessages() {
     };
 
     const handleSubmit = (e) => {
+        console.log('once');
         $('.chatMessages-input input').val('')
-        e.preventDefault()
         if (room) {
             var d = new Date();
             var date = d.toLocaleString()
@@ -112,6 +119,14 @@ function RoomMessages() {
             accessRoom()
         }
     }
+
+    useEffect(() => {
+        if (!roomMember)
+            $('.chatMessages-input').hide()
+        else
+            $('.chatMessages-input').show()
+    }, [roomMember])
+
     return (
         <div className='roomMessages'>
             <ReactLoading color='#180022' type='spinningBubbles' className='loading-icon-center' />
@@ -119,33 +134,40 @@ function RoomMessages() {
                 <h2>{room?.roomName} </h2>
             </div>
             {roomMember ?
+                // <div className='roomMessages-hide'>
                 <div className='chatMessages-container room'>
                     {
                         roomMessages?.map(single => (
-                            <div className={single.fromEmail === user?.email ? `chatMessages-message justifyRight` : `chatMessages-message justifyLeft`}>
-                                <div>
-                                    {allMembers.map(member => {
+                            <div className={single.fromEmail === user?.email ? `chatMessages-message justifyRight room-name` : `chatMessages-message justifyLeft room-name`}>
+                                <div className='chatMessages-sender'>
+                                    {allMembers?.map(member => {
                                         if (single.fromEmail === member.email)
                                             return member.name
                                     })}
                                 </div>
-                                <p>{single.message}</p>
-                                <span>{single.time}</span>
+                                <div>
+                                    <p>{single.message}</p>
+                                    <span>{single.time}</span>
+                                </div>
+
                             </div>
                         ))
                     }
-                </div> :
+                </div>
+
+                // </div>
+                :
                 <div className="join__room">
                     Join Room
-        </div>
+                </div>
             }
-
-
             <div className='chatMessages-input'>
                 <input onChange={(e) => setmessage(e.target.value)} required type='text' placeholder='Send a message' />
                 <SendIcon id='sendIcon' onClick={handleSubmit} />
                 <button type="submit" style={{ display: 'none' }} ></button>
             </div>
+
+
         </div>
     )
 }
