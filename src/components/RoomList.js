@@ -10,9 +10,9 @@ import { hasAccess, refresh } from './Access.js'
 import { useStateValue } from '../StateProvider';
 import ReactLoading from 'react-loading';
 
-const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
+// const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
 
-let socket;
 
 function RoomList() {
     const history = useHistory();

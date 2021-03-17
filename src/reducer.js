@@ -31,6 +31,7 @@ export const reducer = (state, action) => {
 
         case 'SET_UPLOAD': {
             return {
+                ...state,
                 uploaded: action.uploaded
             }
         }

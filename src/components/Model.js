@@ -40,11 +40,17 @@ function Model(props) {
                 console.log(error);
             },
             () => {
+                var userTemp = user
                 storage
                     .ref("images")
                     .child(`${image.name}_${date}`)
                     .getDownloadURL()
                     .then(url => {
+                        userTemp.dp = url
+                        dispatch({
+                            type: 'SET_USER',
+                            user: userTemp
+                        })
                         axios.post("/updatedDp", {
                             user: user?.email,
                             dp: url

@@ -9,8 +9,8 @@ import io from "socket.io-client";
 import $ from 'jquery'
 import ReactLoading from 'react-loading';
 
-// const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
-const ENDPOINT = 'http://localhost:5000/';
+const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
+// const ENDPOINT = 'http://localhost:5000/';
 
 
 function RoomMessages() {
@@ -18,6 +18,8 @@ function RoomMessages() {
     const [{ room, user, roomDetails, allMembers }, dispatch] = useStateValue()
     const [roomMessages, setRoomMessages] = useState([])
     const [roomMember, setroomMember] = useState(false)
+    const [name, setname] = useState("")
+
 
     useEffect(() => {
         if (room) {
@@ -53,11 +55,14 @@ function RoomMessages() {
             })
         }
         if (roomDetails) {
-            roomDetails.map(singleRoomDetail => {
-                if (singleRoomDetail?.email === user?.email)
-                    setroomMember(true)
-            })
+            let isFound = roomDetails.findIndex(singleRoomDetail => (singleRoomDetail?.email === user?.email))
+            if (isFound !== -1) {
+                setroomMember(true)
+            } else {
+                setroomMember(false)
+            }
         }
+
     }, [room, roomDetails])
 
     const getRoom = async (access, refreshToken) => {
@@ -67,7 +72,8 @@ function RoomMessages() {
                     "/roomMessage",
                     {
                         room: room.roomName,
-                        message: message
+                        message: message,
+                        name: user?.name
                     },
                     {
                         headers: {
@@ -113,11 +119,26 @@ function RoomMessages() {
             const obj = {
                 fromEmail: user?.email,
                 message: message,
-                time: date
+                time: date,
+                name: user?.name
             }
             setRoomMessages((prev) => prev ? [...prev, obj] : obj)
             accessRoom()
         }
+    }
+
+    const handleClick = () => {
+        setroomMember(true)
+        var arr = roomDetails
+        arr.push(user)
+        axios.post('/joinRoom', {
+            email: user?.email,
+            roomName: room.roomName,
+        }).then(res =>
+            dispatch({
+                type: 'SET_ROOM_MEMBERS',
+                roomDetails: arr
+            }))
     }
 
     useEffect(() => {
@@ -133,21 +154,19 @@ function RoomMessages() {
             <div className='chatMessages-header'>
                 <h2>{room?.roomName} </h2>
             </div>
-            {roomMember ?
+            {room ? roomMember ?
                 // <div className='roomMessages-hide'>
                 <div className='chatMessages-container room'>
                     {
                         roomMessages?.map(single => (
-                            <div className={single.fromEmail === user?.email ? `chatMessages-message justifyRight room-name` : `chatMessages-message justifyLeft room-name`}>
+                            <div className={(single.fromEmail == user?.email) ? `chatMessages-message justifyRight room-name` : `chatMessages-message justifyLeft room-nameLeft`}>
                                 <div className='chatMessages-sender'>
-                                    {allMembers?.map(member => {
-                                        if (single.fromEmail === member.email)
-                                            return member.name
-                                    })}
+                                    <span>{single.name}</span>
                                 </div>
                                 <div>
-                                    <p>{single.message}</p>
                                     <span>{single.time}</span>
+                                    <p>{single.message}</p>
+
                                 </div>
 
                             </div>
@@ -157,9 +176,9 @@ function RoomMessages() {
 
                 // </div>
                 :
-                <div className="join__room">
+                <button className="join__room" onClick={handleClick}>
                     Join Room
-                </div>
+                </button> : null
             }
             <div className='chatMessages-input'>
                 <input onChange={(e) => setmessage(e.target.value)} required type='text' placeholder='Send a message' />
