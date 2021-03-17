@@ -24,15 +24,18 @@ function RoomMedia() {
         <div className='roomMedia'>
             <ReactLoading color='#180022' type='spinningBubbles' className='loading-icon-media' />
             <h2>Members</h2>
-            {roomDetails ?
-                roomDetails?.map(member => (
-                    <div className='chatList-searchList'>
-                        {member?.dp ? <img src={member?.dp} /> : <img src='../images/male.png' />}
-                        <h4>{member.name}</h4>
-                    </div>
-                ))
-                :
-                <p></p>}
+            <div className='roomMedia-container'>
+                {roomDetails ?
+                    roomDetails?.map(member => (
+                        <div className='chatList-searchList'>
+                            {member?.dp ? <img src={member?.dp} /> : <img src='../images/male.png' />}
+                            <h4>{member.name}</h4>
+                        </div>
+                    ))
+                    :
+                    <p></p>}
+            </div>
+
         </div>
     )
 }

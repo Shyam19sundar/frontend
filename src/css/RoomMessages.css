@@ -18,3 +18,10 @@
 #sendIcon {
     cursor: pointer;
 }
+
+.join__room{
+    top: 50%;
+    left:  50%;
+    border-radius: 25%;
+    font-size: large;
+}

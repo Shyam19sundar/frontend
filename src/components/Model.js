@@ -7,8 +7,7 @@ import $ from 'jquery'
 
 function Model(props) {
     const [image, setImage] = useState(null)
-    const user = sessionStorage.getItem("user");
-    const [{ uploaded }, dispatch] = useStateValue()
+    const [{ uploaded, user }, dispatch] = useStateValue()
 
     const handleChange = e => {
         if (e.target.files[0]) {
@@ -47,7 +46,7 @@ function Model(props) {
                     .getDownloadURL()
                     .then(url => {
                         axios.post("/updatedDp", {
-                            user: user,
+                            user: user?.email,
                             dp: url
                         }).then(res => {
                             if (res.data === 'Done') {

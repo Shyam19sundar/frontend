@@ -7,3 +7,7 @@
     text-align: center;
     margin-top: 10px;
 }
+.roomMedia-container {
+    max-height: 85%;
+    overflow-y: scroll;
+}

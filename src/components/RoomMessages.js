@@ -15,25 +15,29 @@ let socket;
 
 function RoomMessages() {
     const [message, setmessage] = useState("")
-    const [{ room, user }, dispatch] = useStateValue()
+    const [{ room, user, roomDetails, allMembers }, dispatch] = useStateValue()
     const [roomMessages, setRoomMessages] = useState([])
+    const [roomMember, setroomMember] = useState(false)
 
     useEffect(() => {
         if (room) {
             $('.loading-icon-center').show()
-            console.log("kkkk")
             axios.post('/roomMessages', {
                 roomName: room?.roomName
             }).then(
                 res => {
-                    console.log("object")
-                    console.log(res.data)
                     $('.loading-icon-center').hide()
                     setRoomMessages(res.data)
                 }
             )
         }
-    }, [room])
+        if (roomDetails) {
+            roomDetails.map(singleRoomDetail => {
+                if (singleRoomDetail?.email === user?.email)
+                    setroomMember(true)
+            })
+        }
+    }, [room, roomDetails])
 
     socket = io(ENDPOINT);
     socket.on('users', (data) => {
@@ -100,7 +104,7 @@ function RoomMessages() {
             var d = new Date();
             var date = d.toLocaleString()
             const obj = {
-                fromEmail: user.email,
+                fromEmail: user?.email,
                 message: message,
                 time: date
             }
@@ -114,16 +118,28 @@ function RoomMessages() {
             <div className='chatMessages-header'>
                 <h2>{room?.roomName} </h2>
             </div>
-            <div className='chatMessages-container room'>
-                {
-                    roomMessages?.map(single => (
-                        <div className={single.fromEmail === user.email ? `chatMessages-message justifyRight` : `chatMessages-message justifyLeft`}>
-                            <p>{single.message}</p>
-                            <span>{single.time}</span>
-                        </div>
-                    ))
-                }
-            </div>
+            {roomMember ?
+                <div className='chatMessages-container room'>
+                    {
+                        roomMessages?.map(single => (
+                            <div className={single.fromEmail === user?.email ? `chatMessages-message justifyRight` : `chatMessages-message justifyLeft`}>
+                                <div>
+                                    {allMembers.map(member => {
+                                        if (single.fromEmail === member.email)
+                                            return member.name
+                                    })}
+                                </div>
+                                <p>{single.message}</p>
+                                <span>{single.time}</span>
+                            </div>
+                        ))
+                    }
+                </div> :
+                <div className="join__room">
+                    Join Room
+        </div>
+            }
+
 
             <div className='chatMessages-input'>
                 <input onChange={(e) => setmessage(e.target.value)} required type='text' placeholder='Send a message' />

@@ -29,7 +29,7 @@ function ChatMedia() {
     const classes = useStyles();
     useEffect(() => {
         if (receiver) {
-            setdetails(null)
+            setdetails([])
             $('.loading-icon-chat-media').show()
             axios.get('/getDetails', {
                 params: {
@@ -50,7 +50,7 @@ function ChatMedia() {
                     <div className={classes.root}>
                         <img className={classes.large} src={details.dp} />
                     </div>
-                    <h3>{details.name}</h3>
+                    <h3>{details?.name}</h3>
                     <h5>Interests :</h5>
                     {details?.interests?.length !== 0 ? details.interests.map(interest => <div>{interest}</div>) : <div>No Interests</div>}
                 </div>

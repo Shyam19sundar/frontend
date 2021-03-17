@@ -105,13 +105,12 @@ function ChatMessages() {
     };
 
     useEffect(() => {
-        setresponse(null)
+        setresponse([])
         if (receiver) {
             $('.loading-icon-chat-center').show()
             accessDirect()
         }
     }, [ENDPOINT, receiver])
-    console.log(user)
 
     socket = io(ENDPOINT);
     socket.on('users', (data) => {
@@ -141,7 +140,6 @@ function ChatMessages() {
             accessAdd()
         }
     }
-    console.log(response)
     return (
         <div className='chatMessages'>
             <ReactLoading color='#180022' type='spinningBubbles' className='loading-icon-chat-center' />
@@ -152,7 +150,7 @@ function ChatMessages() {
             <div className='chatMessages-container'>
                 {
                     response?.map(single => (
-                        <div className={single.fromEmail === user.email ? `chatMessages-message justifyRight` : `chatMessages-message justifyLeft`}>
+                        <div className={single.fromEmail === user?.email ? `chatMessages-message justifyRight` : `chatMessages-message justifyLeft`}>
                             <p>{single.message}</p>
                             <span>{single.time}</span>
                         </div>
