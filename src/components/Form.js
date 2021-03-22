@@ -64,8 +64,8 @@ function Form({ setPath }) {
             axios
                 .post("/signup", { user, name })
                 .then((data) => {
-                    Cookies.set("access", data.data.access, { sameSite: "strict" });
-                    Cookies.set("refresh", data.data.refresh, { sameSite: "strict" });
+                    Cookies.set("access", data.data.access, { sameSite: 'None', secure: true });
+                    Cookies.set("refresh", data.data.refresh, { sameSite: 'None', secure: true });
                     console.log(data.data);
                     history.push('/')
                     setPath('/')
