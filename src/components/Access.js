@@ -24,7 +24,7 @@ export const refresh = (refreshToken) => {
                 else {
                     const accessToken = data.data.access
                     console.log('refreshed')
-                    Cookies.set('access', accessToken, { sameSite: 'strict' })
+                    Cookies.set('access', accessToken, { sameSite: 'None', secure: true })
                     resolve(accessToken)
                 }
             })
