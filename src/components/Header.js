@@ -54,9 +54,13 @@ function Header() {
         });
     };
     useEffect(() => {
-        if (Cookies.get("refresh"))
-            accessProtected()
-        console.log('change')
+        if (Cookies.get("refresh")) {
+            if (!user) {
+                accessProtected()
+                console.log('change')
+            }
+        }
+
     }, [user])
 
     return (

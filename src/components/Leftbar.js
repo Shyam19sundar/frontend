@@ -8,9 +8,11 @@ import '../css/Leftbar.css'
 import { Link } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import $ from "jquery"
+import { useStateValue } from '../StateProvider';
 
 function Leftbar() {
     const [path, setPath] = useState(window.location.pathname)
+    const [{ user }, dispatch] = useStateValue()
     useEffect(() => {
         if (path === "/login")
             $('.leftBar').hide()
@@ -19,6 +21,10 @@ function Leftbar() {
     const handleLogout = () => {
         Cookies.remove('access');
         Cookies.remove('refresh');
+        dispatch({
+            type: 'SET_USER',
+            user: null
+        })
         setPath('/')
     }
     return (
