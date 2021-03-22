@@ -84,6 +84,9 @@ function App() {
       <Route path="/verify" exact>
         <Verify />
       </Route>
+      <Route path='/video' exact>
+        <VideoCall />
+      </Route>
       {((path !== "/login") && (path !== "/signup") && (path !== "/form")) ?
         <div className="app">
           <Header />
@@ -99,10 +102,6 @@ function App() {
               <Route path='/profile' exact>
                 <Profile />
               </Route>
-              <Route path='/video' exact>
-                <VideoCall />
-              </Route>
-
               <Route path='/' >
                 <Home setPath={setPath} />
               </Route>

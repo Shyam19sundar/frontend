@@ -9,8 +9,8 @@ import io from "socket.io-client";
 import $ from 'jquery'
 import ReactLoading from 'react-loading';
 
-const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
-// const ENDPOINT = 'http://localhost:5000/';
+// const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
 
 
 function RoomMessages() {
