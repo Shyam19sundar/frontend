@@ -2,6 +2,8 @@
     height: 90vh;
     flex: 0.3;
     border-right: 1px solid #180022;
+    display: flex;
+    flex-direction: column;
 }
 
 .add-room-form{
@@ -10,6 +12,7 @@
 .add-room-container {
     display: flex;
     flex-direction: column;
+    flex: 0.05;
     align-items: center;
 }
 .add-room-container > button {
@@ -37,6 +40,9 @@
     color: aliceblue;
     cursor: pointer;
 }
+.chatList-search{
+  flex: 0.1;
+}
 .chatList-searchList {
     color: #180022;
     border: 1px solid #34004a;
@@ -47,8 +53,8 @@
     padding: 10px;
 }
 .chatList-scroll {
-    height: 90%;
-    overflow-y: scroll;
+    height: 100%;
+    flex: 0.8;
 }
 .room-searches h4{
     /* height: 50px; */

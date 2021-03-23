@@ -42,13 +42,16 @@ function Header() {
                         resolve(true);
                     },
                     async (error) => {
-                        if (error.response?.status === 401)
-                            console.log("You are not authorized!");
-                        else if (error.response.status === 498) {
-                            const access = await refresh(refreshToken);
-                            return await getMe(access, refreshToken);
+                        if (error) {
+                            if (error.response.status === 401)
+                                console.log("You are not authorized!");
+                            else if (error.response.status === 498) {
+                                const access = await refresh(refreshToken);
+                                return await getMe(access, refreshToken);
+                            }
+                            resolve(false);
                         }
-                        resolve(false);
+
                     }
                 );
         });

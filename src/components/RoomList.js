@@ -9,6 +9,7 @@ import Cookies from 'js-cookie'
 import { hasAccess, refresh } from './Access.js'
 import { useStateValue } from '../StateProvider';
 import ReactLoading from 'react-loading';
+import { ToastContainer, toast } from 'react-toastify';
 
 // const ENDPOINT = 'https://desolate-fortress-07828.herokuapp.com/';
 const ENDPOINT = 'http://localhost:5000/';
@@ -51,11 +52,18 @@ function RoomList() {
                         $('.loading-icon').hide()
                     },
                     async (error) => {
-                        if (error.response.status === 401)
+                        if (error.response.status === 401) {
                             console.log("You are not authorized!");
+                            $('.loading-icon').hide()
+                        }
                         else if (error.response.status === 498) {
                             const access = await refresh(refreshToken);
                             return await addNewRoom(access, refreshToken);
+                        }
+                        else if (error.response.status === 409) {
+                            console.log(error.response.data.message)
+                            notify(error.response.data.message)
+                            $('.loading-icon').hide()
                         }
                         resolve(false);
                     }
@@ -142,8 +150,14 @@ function RoomList() {
         })
     }
 
+    const notify = (message) => toast.error(message);
+
     return (
         <div className="room-list">
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={true} />
             <div className='add-room-container'>
                 <button onClick={handleClick}>Create a new Room</button>
                 <form className="add-room-form" onSubmit={addRoom}>
@@ -165,7 +179,7 @@ function RoomList() {
                     searches?.map(room => (
                         <div onClick={() => handleRoom(room)} className='chatList-searchList searches room-searches'>
                             <div>
-                                <h4>{room.roomName}</h4>
+                                <h4>{room?.roomName}</h4>
                             </div>
                         </div>
                     ))
@@ -174,7 +188,7 @@ function RoomList() {
                     response?.map(room => (
                         <div onClick={() => handleRoom(room)} className='chatList-searchList room-searches'>
                             <div>
-                                <h4>{room.roomName}</h4>
+                                <h4>{room?.roomName}</h4>
                             </div>
                         </div>
                     ))
