@@ -34,6 +34,20 @@ function RoomMessages() {
                 }
             )
         }
+        
+        if (roomDetails) {
+            let isFound = roomDetails.findIndex(singleRoomDetail => (singleRoomDetail?.email === user?.email))
+            if (isFound !== -1) {
+                setroomMember(true)
+            } else {
+                setroomMember(false)
+            }
+        }
+
+    }, [room, roomDetails])
+                
+                
+    useEffect(() => {
         if (room) {
             const socket = io(ENDPOINT);
             socket.on('users', (data) => {
@@ -54,16 +68,7 @@ function RoomMessages() {
                 // $('.loading-icon-center').hide()
             })
         }
-        if (roomDetails) {
-            let isFound = roomDetails.findIndex(singleRoomDetail => (singleRoomDetail?.email === user?.email))
-            if (isFound !== -1) {
-                setroomMember(true)
-            } else {
-                setroomMember(false)
-            }
-        }
-
-    }, [room, roomDetails])
+    }, [ENDPOINT])
 
 
     const getRoom = async (access, refreshToken) => {
